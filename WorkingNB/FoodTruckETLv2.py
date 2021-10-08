@@ -19,7 +19,4 @@ def getdata():
     dfTalla = pd.DataFrame.from_dict(data)
     dfTalla.head()
 
-
-
-
-    return dfVan, dfBos, dfTalla
+    return dfBos
