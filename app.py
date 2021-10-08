@@ -1,7 +1,17 @@
 from flask import Flask, render_template, redirect
 from flask_pymongo import PyMongo
 from sqlalchemy import create_engine
-import FoodTruckETLv4
+import pandas as pd
+import requests
+from pandas.io.json import json_normalize
+import numpy as np
+from sqlalchemy import create_engine
+from os import environ
+from sqlalchemy.sql.sqltypes import BigInteger
+from sqlalchemy.types import Integer, Text, String, DateTime
+import FoodTruckETLv5
+
+
 
 # Create an instance of Flask
 app = Flask(__name__)
@@ -11,17 +21,26 @@ app = Flask(__name__)
 def welcome():
     return render_template("index.html")
     
-
-# Route to render index.html template using data from Mong
-# Route that will trigger the scrape function
 @app.route("/getdata")
 def data():
-    f"We got some new data!<br/>"
-    # Run the scrape function
-    FoodTruckETLv4.getdata()
-
-    # Redirect back to home page
+    FoodTruckETLv5.getdata()
     return redirect("/")
+
+@app.route("/city")
+def City():
+    return render_template("city.html")
+
+@app.route("/vendor")
+def Vendor():
+    return render_template("vendor.html")
+
+@app.route("/vendorhistory")
+def VendorHistory():
+    return render_template("vendorhistory.html")
+    
+   
+
+
     
 
 if __name__ == "__main__":
