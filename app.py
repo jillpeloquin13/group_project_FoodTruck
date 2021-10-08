@@ -1,12 +1,10 @@
 from flask import Flask, render_template, redirect
 from flask_pymongo import PyMongo
-import FoodTruckETLv3
+import FoodTruckETLv4
 
 # Create an instance of Flask
 app = Flask(__name__)
 
-# Use PyMongo to establish Mongo connection
-mongo = PyMongo(app, uri="mongodb://localhost:27017/FoodTruck_db")
 
 @app.route("/")
 def welcome():
@@ -19,15 +17,11 @@ def welcome():
 def getdata():
 
     # Run the scrape function
-    food_data= FoodTruckETLv3.getdata()
-
-    # Update the Mongo database using update and upsert=True
-    mongo.db.collection.insert_many(merged_df.to_dict('records'))
-
-
+    food_data= FoodTruckETLv4.getdata()
+    f"We got some new data!<br/>"
     # Redirect back to home page
     return redirect("/")
-
+    
 
 if __name__ == "__main__":
     app.run(debug=True)

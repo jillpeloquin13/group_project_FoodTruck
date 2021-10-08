@@ -13,7 +13,7 @@ def getdata():
 
     url = 'http://data.streetfoodapp.com/1.1/schedule/vancouver'
     data =  requests.get(url).json()
-    data = df.vendors.apply(pd.Series)
+    data = data.vendors.apply(pd.Series)
     data.head()
 
     data2 = data[['description', 'name', 'description_short', 'last']].copy()
@@ -28,7 +28,7 @@ def getdata():
 
     url = 'http://data.streetfoodapp.com/1.1/schedule/boston'
     data =  requests.get(url).json()
-    data = df.vendors.apply(pd.Series)
+    data = data.vendors.apply(pd.Series)
     data.head()
 
     data2 = data[['description', 'name', 'description_short', 'last']].copy()
@@ -43,7 +43,7 @@ def getdata():
 
     url = 'http://data.streetfoodapp.com/1.1/schedule/tallahassee'
     data =  requests.get(url).json()
-    data = df.vendors.apply(pd.Series)
+    data = data.vendors.apply(pd.Series)
     data.head()
 
 
