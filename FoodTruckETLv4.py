@@ -2,15 +2,11 @@
 import pandas as pd
 import requests
 from pandas.io.json import json_normalize
-from pymongo import MongoClient
-import numpy as np
 from sqlalchemy import create_engine
 
 
 
 def getdata():
-
-    
 
     url = 'http://data.streetfoodapp.com/1.1/schedule/vancouver'
     data =  requests.get(url).json()
@@ -40,12 +36,13 @@ def getdata():
     TalData.insert(4, "Location", "Tallahassee")
 
 
-    merged_df  = pd.concat([BosData,TalData, Vandata])
+    merged_df  = pd.concat([BosData,TalData,Vandata])
+    merged_df =  merged_df.reset_index()
 
     merged_df.columns = ['Foodtruck', 'Time', 'Display_name', 'Lat', 'Long', 'Location']
-    merged_df.head()
     rds_connection_string = "postgres:postgres@localhost:5432/FoodTruck_db"
     engine = create_engine(f'postgresql://{rds_connection_string}')
-    merged_df.to_sql(name='citydata', con=engine, if_exists='replace', index=False)
-
+    data.to_sql(name='citydata', con=engine, if_exists='replace', index=False)
+    
+    return merged_df
 
