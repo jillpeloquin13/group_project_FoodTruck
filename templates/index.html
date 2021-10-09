@@ -7,6 +7,13 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>FoodTruck Bonzana</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css?version=1.0">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin=""/>
+  
+    <!-- Our CSS -->
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
 </head>
 
 <body>
@@ -21,6 +28,21 @@
       <p><a class="btn btn-primary btn-lg" href="/city" role="button">Get fancy Food Truck Data by City</a></p>
       <p><a class="btn btn-primary btn-lg" href="/vendor" role="button">Where is my favorite food truck?</a></p>
       <p><a class="btn btn-primary btn-lg" href="/vendorhistory" role="button">Where has my favorite food truck been?</a></p>
+
+        <!-- The div that holds our map -->
+      <div id="map-id"></div>
+
+      <!-- D3 -->
+      <script src="https://d3js.org/d3.v5.min.js"></script>
+
+      <!-- Leaflet JavaScript -->
+      <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+      integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+      crossorigin=""></script>
+      <script type="text/javascript" src="/static/config.js"></script>
+      <!-- JS -->
+      <script type="text/javascript" src="/static/citylogic.js"></script>
+    
   
 </body>
 
