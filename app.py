@@ -13,6 +13,7 @@ import json
 import FoodTruckETLv5
 import psycopg2
 import sys, os
+from sqlalchemy.ext.automap import automap_base
 
 
 
@@ -37,10 +38,24 @@ def City():
 def apicity():
     rds_connection_string = 'postgres:postgres@localhost:5432/FoodTruck_db'
     engine = create_engine(f'postgresql://{rds_connection_string}')
-    conn = engine.connect()
-    curr = conn.cursor()
-    curr.execute("SELECT * FROM citydata WHERE location = Boston;")
-    data = curr.fetchall()
+    
+
+# reflect an existing database into a new model
+    Base = automap_base()
+# reflect the tables
+    Base.prepare(engine, reflect=True)
+
+
+
+
+
+    """Return a list of all passenger names"""
+    # Query all passengers
+    results = session.query(Passenger.name).all()
+
+    
+
+    session.close()
    
     Boston_data = []
     for Foodtruck, Display_name, Lat, Long, Location in data:
