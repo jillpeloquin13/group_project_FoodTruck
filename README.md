@@ -23,3 +23,17 @@ ALTER TABLE citydata ADD PRIMARY KEY ("Foodtruck", "Location");
 2. Navigate into the repo and start the app with 'python -m flask run
 
 3. The button 'Update Today's FoodTruck
+
+4. Create schemea and check
+
+CREATE TABLE citydata
+(
+    Foodtruck TEXT PRIMARY KEY,
+    Time NUMERIC,
+    Display_name TEXT,
+    Lat NUMERIC,
+    Long NUMERIC,
+    Location TEXT
+)
+
+Delete from citydata
