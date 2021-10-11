@@ -49,12 +49,13 @@ def getdata():
  
 
 
-    merged_df.columns = ['Foodtruck', 'Time', 'Display_name', 'Lat', 'Long', 'Location']
+    merged_df.columns = ['foodtruck', 'time', 'display_name', 'lat', 'long', 'location']
     
 
     rds_connection_string = "postgres:postgres@localhost:5432/FoodTruck_db"
     engine = create_engine(f'postgresql://{rds_connection_string}')
-    merged_df.to_sql(name='citydata', con=engine, if_exists='replace', index=False)
+    engine.execute('delete from citydata')
+    merged_df.to_sql(name='citydata', con=engine, if_exists='append', index=False)
 
 
 

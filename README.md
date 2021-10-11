@@ -6,15 +6,19 @@ To work with this project:
 1. Create Database schema in pgAdmin: 
     Db= FoodTruck_db
     
-    CREATE TABLE citydata
+ CREATE TABLE citydata
 (
-    "Foodtruck" text,
-    "Time" bigint,
-    "Display_name" text,
-    "Lat" double precision,
-    "Long" double precision,
-    "Location" text
+    Foodtruck TEXT,
+    Time NUMERIC,
+    Display_name TEXT,
+    Lat NUMERIC,
+    Long NUMERIC,
+    Location TEXT
 )
+
+Select * from citydata
+
+ALTER TABLE citydata ADD PRIMARY KEY ("Foodtruck", "Location");
 
 2. Navigate into the repo and start the app with 'python -m flask run
 
