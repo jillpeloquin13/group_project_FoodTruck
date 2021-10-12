@@ -29,35 +29,14 @@ function createMap(foodStations) {
 
   // Create an overlayMaps object to hold the bikeStations layer
   var overlayMaps = {
-    "Food Trucks in your City!": foodStations
+    "See my favorite Food Truck": foodStations
   };
 
   // Create the map object with options
   var map = L.map("map-id", {
-    center: [42.36, - 71.05],
-    zoom: 12,
+    center: [39.36, - 98.05],
+    zoom: 4,
     layers: [map, lightmap, foodStations]
-  });
-
-  document.getElementById("buttonBoston").addEventListener("click", function () {
-      map.flyTo([42.36, -71.05], 10, {
-        animate: true,
-        duration: 2 // in seconds
-      });
-  });
-
-  document.getElementById("buttonVancouver").addEventListener("click", function () {
-      map.flyTo([49.28, -123.12], 10, {
-        animate: true,
-        duration: 2 // in seconds
-      });
-  });
-
-  document.getElementById("buttonTallahassee").addEventListener("click", function () {
-      map.flyTo([30.43, -84.28], 10, {
-        animate: true,
-        duration: 2 // in seconds
-      });
   });
 
   // Create a layer control, pass in the baseMaps and overlayMaps. Add the layer control to the map
@@ -69,15 +48,15 @@ function createMap(foodStations) {
 };
 
 
-function createMarkers(all_data) {
+function createMarkers(citydata) {
 
 
-  console.log(all_data)
+  console.log(citydata)
 
   var foodmarkers = [];
 
-  for (var i = 0; i < all_data.length; i++) {
-    var data= all_data[i];
+  for (var i = 0; i < citydata.length; i++) {
+    var data= citydata[i];
 
     var foodIcon = L.icon({
       iconUrl: 'Siteimages/FT.png',
@@ -85,11 +64,12 @@ function createMarkers(all_data) {
     }); 
 
     // For each station, create a marker and bind a popup with the station's name
-    var foodmarker = L.marker([data.lat, data.long])
-    .bindPopup("<h3>" + "The Food Truck here is" + data.foodtruck + "</h3>");
+    var foodmarker = L.marker([data.latitude, data.longitude])
+    .bindPopup("<h3>" + "The Food Truck will be at" + data.display + "</h3>");
 
     // Add the marker to the bikeMarkers array
     foodmarkers.push(foodmarker);
+    console.log(foodmarker)
   }
 
   // Create a layer group made from the bike markers array, pass it into the createMap function
@@ -100,5 +80,5 @@ function createMarkers(all_data) {
 
 
 // Perform an API call to the Citi Bike API to get station information. Call createMarkers when complete
-d3.json("http://127.0.0.1:5000/api/city").then(createMarkers);
+d3.json("http://127.0.0.1:5000/api/vendor").then(createMarkers);
 

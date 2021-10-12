@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, jsonify
+from flask import Flask, render_template, redirect, jsonify, request
 from flask_pymongo import PyMongo
 import FoodTruckETLv5
 from sqlalchemy.ext.automap import automap_base
@@ -8,6 +8,8 @@ import numpy as np
 from sqlalchemy import Column, Integer, String, Float, Text, Numeric
 import simplejson as json
 from decimal import Decimal
+import requests
+import json
 
 
 ## DB Connection
@@ -61,6 +63,15 @@ def result():
 def Vendor():
     return render_template("vendor.html")
 
+
+
+@app.route('/api/vendor', methods=['GET', 'POST'])
+def result2():
+    r = requests.get(f'http://data.streetfoodapp.com/1.1/vendors/chickpea-truck')
+    citydata=json.loads(r.text)['open']
+    return jsonify(citydata)
+
+
 @app.route("/vendorhistory")
 def VendorHistory():
     return render_template("vendorhistory.html")
@@ -71,9 +82,3 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-# Snippet to query against one table column
-#     session = Session(engine)
-#     results = session.query(Citydata.foodtruck).all()
-#     session.close()
-#     all_names = list(np.ravel(results))
-#     return jsonify(all_names)
