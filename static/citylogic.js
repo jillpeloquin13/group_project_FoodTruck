@@ -1,6 +1,5 @@
 
-
-d3.json("/api/city")
+function createMap(foodStations) {
 
   // Create the tile layer that will be the background of our map
   var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -17,45 +16,43 @@ d3.json("/api/city")
 
   // Create an overlayMaps object to hold the bikeStations layer
   var overlayMaps = {
-    "Bike Stations": bikeStations
+    "Bike Stations": foodStations
   };
 
   // Create the map object with options
-  var map = L.map("map", {
-    center: [42.36, -71.03],
+  var map = L.map("map-id", {
+    center: [40.73, -74.0059],
     zoom: 12,
-    layers: [lightmap, bikeStations]
+    layers: [lightmap, foodStations]
   });
 
   // Create a layer control, pass in the baseMaps and overlayMaps. Add the layer control to the map
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
   }).addTo(map);
+}
 
+function createMarkers(all_data) {
 
+  console.log(all_data)
 
+  var foodmarkers = [];
 
-  // Pull the "stations" property off of response.data
-  var stations = response.data.stations;
-
-  // Initialize an array to hold bike markers
-  var bikeMarkers = [];
-
-  // Loop through the stations array
-  for (var index = 0; index < stations.length; index++) {
-    var station = stations[index];
+  for (var i = 0; i < all_data.length; i++) {
+    var data= all_data[i];
 
     // For each station, create a marker and bind a popup with the station's name
-    var bikeMarker = L.marker([station.lat, station.lon])
-      .bindPopup("<h3>" + station.name + "<h3><h3>Capacity: " + station.capacity + "</h3>");
+    var foodmarker = L.marker([data.lat, data.long])
+    .bindPopup("<h3>" + data.foodtruck + "</h3>");
 
     // Add the marker to the bikeMarkers array
-    bikeMarkers.push(bikeMarker);
+    foodmarkers.push(foodmarker);
   }
 
   // Create a layer group made from the bike markers array, pass it into the createMap function
-  createMap(L.layerGroup(bikeMarkers));
+  createMap(L.layerGroup(foodmarkers));
 
+}
 
 // Perform an API call to the Citi Bike API to get station information. Call createMarkers when complete
-d3.json("https://gbfs.citibikenyc.com/gbfs/en/station_information.json").then(createMarkers);
+d3.json("http://127.0.0.1:5000/api/city").then(createMarkers);

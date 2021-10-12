@@ -6,6 +6,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 import numpy as np
 from sqlalchemy import Column, Integer, String, Float, Text, Numeric
+import simplejson as json
+from decimal import Decimal
 
 
 ## DB Connection
@@ -35,16 +37,25 @@ def data():
     return redirect("/")
 
 @app.route("/city")
-def City():
+def city(): 
     return render_template("city.html")
 
 @app.route("/api/city")
-def apicity():
+def result():
     session = Session(engine)
-    results = session.query(Citydata.foodtruck).all()
+    results = session.query(Citydata.foodtruck, Citydata.lat, Citydata.long).all()
     session.close()
-    all_names = list(np.ravel(results))
-    return jsonify(all_names)
+
+    all_data= []
+    for foodtruck, lat, long in results:
+        city_dict = {}
+        city_dict["foodtruck"] = foodtruck
+        city_dict["lat"] = lat
+        city_dict["long"] = long
+        all_data.append(city_dict)
+    
+    return jsonify(all_data)
+
 
 @app.route("/vendor")
 def Vendor():
@@ -58,3 +69,11 @@ def VendorHistory():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+# Snippet to query against one table column
+#     session = Session(engine)
+#     results = session.query(Citydata.foodtruck).all()
+#     session.close()
+#     all_names = list(np.ravel(results))
+#     return jsonify(all_names)
