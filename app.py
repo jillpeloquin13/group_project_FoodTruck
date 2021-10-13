@@ -72,9 +72,25 @@ def result2():
     return jsonify(citydata)
 
 
-@app.route("/vendorhistory")
-def VendorHistory():
-    return render_template("vendorhistory.html")
+@app.route('/api/vendor/<name>', methods=['GET', 'POST'])
+def resultvendor(name):
+    url = 'http://data.streetfoodapp.com/1.1/vendors/'+ name
+    r = requests.get(url)
+    citydata=json.loads(r.text)['open']
+    return jsonify(citydata)
+
+
+@app.route("/api/wordcloud")
+def wordcloud():
+    session = Session(engine)
+    results = session.query(Citydata.display_name).all()
+    session.close()
+    return jsonify(results)
+
+
+@app.route("/wordcloud")
+def wordcloudtemp():
+    return render_template("wordcloud.html")
 
 
 

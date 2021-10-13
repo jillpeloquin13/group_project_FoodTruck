@@ -2,6 +2,8 @@
 
 function createMap(foodStations) {
 
+  var container = L.DomUtil.get('map-id'); if(container != null){ container._leaflet_id = null; }
+
   // Create the tile layer that will be the background of our map
   var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
@@ -59,13 +61,13 @@ function createMarkers(citydata) {
     var data= citydata[i];
 
     var foodIcon = L.icon({
-      iconUrl: 'Siteimages/FT.png',
-      iconSize: [30,40]
+      iconUrl: '/static/food-truck-clipart-md.png',
+      iconSize:[30,20]
     }); 
 
     // For each station, create a marker and bind a popup with the station's name
-    var foodmarker = L.marker([data.latitude, data.longitude])
-    .bindPopup("<h3>" + "The Food Truck will be at" + data.display + "</h3>");
+    var foodmarker = L.marker([data.latitude, data.longitude], {icon: foodIcon})
+    .bindPopup("<h3>" + "The Food Truck will be at " + data.display + "</h3>");
 
     // Add the marker to the bikeMarkers array
     foodmarkers.push(foodmarker);
@@ -77,8 +79,36 @@ function createMarkers(citydata) {
 
 }
 
-
-
 // Perform an API call to the Citi Bike API to get station information. Call createMarkers when complete
 d3.json("http://127.0.0.1:5000/api/vendor").then(createMarkers);
 
+
+
+var button = d3.select("#button");
+
+// Select the form
+var form = d3.select("#form");
+
+// Create event handlers for clicking the button or pressing the enter key
+button.on("click", runEnter);
+form.on("submit",runEnter);
+
+function runEnter() {
+
+  // Prevent the page from refreshing
+  d3.event.preventDefault();
+
+  // Select the input element and get the raw HTML node
+  var inputElement = d3.select("#example-form-input");
+
+  // Get the value property of the input element
+  var name = inputElement.property("value");
+
+  // Print the value to the console
+  console.log(name);
+  var url = `http://127.0.0.1:5000/api/vendor/${name}`
+  console.log(url); 
+   
+  d3.json(url).then(createMarkers);
+  
+}

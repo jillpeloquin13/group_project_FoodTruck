@@ -80,13 +80,13 @@ function createMarkers(all_data) {
     var data= all_data[i];
 
     var foodIcon = L.icon({
-      iconUrl: 'Siteimages/FT.png',
-      iconSize: [30,40]
+      iconUrl: '/static/FT.png',
+      iconSize: [30,20]
     }); 
 
     // For each station, create a marker and bind a popup with the station's name
-    var foodmarker = L.marker([data.lat, data.long])
-    .bindPopup("<h3>" + "The Food Truck here is" + data.foodtruck + "</h3>");
+    var foodmarker = L.marker([data.lat, data.long],  {icon: foodIcon} )
+    .bindPopup("<h3>" + "The Food Truck that is here is " + data.foodtruck + "</h3>");
 
     // Add the marker to the bikeMarkers array
     foodmarkers.push(foodmarker);
